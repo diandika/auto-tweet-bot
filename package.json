@@ -1,0 +1,23 @@
+{
+  "name": "kumiko_bot",
+  "version": "1.0.0",
+  "description": "generate same thing once a day",
+  "main": "server.js",
+  "scripts": {
+    "test": "kumiko",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diandika/kumiko-bot-node.git"
+  },
+  "author": "diandika",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diandika/kumiko-bot-node/issues"
+  },
+  "homepage": "https://github.com/diandika/kumiko-bot-node#readme",
+  "dependencies": {
+    "twit": "^2.2.11"
+  }
+}
