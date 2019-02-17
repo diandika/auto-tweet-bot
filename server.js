@@ -4,7 +4,7 @@ var Twit = require('twit');
 var config = require('./config');
 
 var T = new Twit(config);
-console.log(T);
+//console.log(T);
 
 var fs = require('fs');
 var obj
@@ -15,20 +15,34 @@ function preprocess(err,data){
     throw err;
   }
   obj = JSON.parse(data);
-  console.log(obj);
+  //console.log(obj.repeated_phrase);
+}
+//var id_acc = 1094789694280261600;
+
+tweetIt();
+setInterval(tweetIt, 16800*1000);
+
+function tweetIt(){
+  T.get('statuses/user_timeline', {screen_name: 'MAESHIMAAMI_ave', count: 2}, function(err, data, response){
+    if (err){
+      return
+    }
+    for (var i in data) {
+      if (data[i].text.includes("おやすみなさい")) {
+        obj.saved_phrase = data[i].text;
+        break;
+      }
+    }
+    var status= obj.saved_phrase + "\n\n" + obj.repeated_phrase;
+    console.log(status);
+    tweetStatus(status);
+  })
 }
 
-var id_acc = 1094789694280261600;
-
-var stream = T.stream('statuses/filter', {follow: id_acc});
-stream.on('tweet', function(err, data, response){
-  console.log(data);
-});
-
-function tweetStatus(){
-  var randInt = Math.floor(Math.random()*1000);
+function tweetStatus(text){
+  //var randInt = Math.floor(16800*1000);
   var tweet = {
-    status: 'this should be tweeted once in a minute\n#' + randInt + ' <- for unique tweet'
+    status: text
   }
 
   T.post('statuses/update', tweet, isTweeted);

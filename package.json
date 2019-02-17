@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/diandika/kumiko-bot-node#readme",
   "dependencies": {
-    "twit": "^2.2.11"
-  }
+    "twit": "^2.2.11",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {}
 }
