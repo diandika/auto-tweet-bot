@@ -15,31 +15,49 @@ function preprocess(err,data){
     throw err;
   }
   obj = JSON.parse(data);
-  //console.log(obj.repeated_phrase);
+  //console.log(obj);
 }
 //var id_acc = 1094789694280261600;
 
 tweetIt();
-setInterval(tweetIt, 86400*1000);
+setInterval(tweetIt, 60*1000);
 
-function tweetIt(){
-  T.get('statuses/user_timeline', {screen_name: 'MAESHIMAAMI_ave', count: 2}, function(err, data, response){
-    if (err){
-      return
-    }
-    for (var i in data) {
-      if (data[i].text.includes("おやすみなさい") && data[i].text != obj.saved_phrase) {
-        obj.saved_phrase = data[i].text;
-        var status= obj.saved_phrase + "\n\n" + obj.repeated_phrase;
-        console.log(status);
-        tweetStatus(status);
+function tweetIt() {
+    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
+        if (err) {
+            return
+        }
+        //console.log(data[0].text);
+        for (var i in data) {
+            if (data[i].text.includes("おやすみなさい")) {
+                if (data[i].text !== obj.saved_phrase) {
+                    console.log('same oyasumi as last night');
+                    break;
+                } else {
+                    obj.saved_phrase = data[i].text;
+                    var status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
+                    console.log(status);
+                    tweetStatus(status);
+                    var jsonOutput = JSON.stringify(obj);
+                    console.log(jsonOutput);
+                    fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
+                    return;
+                }
+            } else {
+                console.log('not oyasuminasai');
+            }
+        }
+        var currentdate = new Date();
+        var datetime = currentdate.getDate() + "/"
+            + (currentdate.getMonth() + 1) + "/"
+            + currentdate.getFullYear() + " @ "
+            + currentdate.getHours() + ":"
+            + currentdate.getMinutes() + ":"
+            + currentdate.getSeconds();
+        obj.last_tweeted = datetime;
         var jsonOutput = JSON.stringify(obj);
-        console.log(jsonOutput);
-        fs.writeFile('./tweet_file.json', jsonOutput, function(err){ console.log(err);});
-        break;
-      }
-    }
-  })
+        fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
+    })
 }
 
 function tweetStatus(text){
@@ -56,14 +74,6 @@ function tweetStatus(text){
       console.log(err);
     } else {
       console.log("it works!");
-      var currentdate = new Date();
-      var datetime = currentdate.getDate() + "/"
-                      + (currentdate.getMonth()+1)  + "/"
-                      + currentdate.getFullYear() + " @ "
-                      + currentdate.getHours() + ":"
-                      + currentdate.getMinutes() + ":"
-                      + currentdate.getSeconds();
-      obj.last_tweeted = datetime
     }
   }
 }
