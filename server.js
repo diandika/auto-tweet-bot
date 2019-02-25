@@ -23,28 +23,44 @@ tweetIt();
 setInterval(tweetIt, 60*1000);
 
 function tweetIt() {
-    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
+    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 10 }, function (err, data, response) {
         if (err) {
             return
         }
         //console.log(data[0].text);
+        var status, jsonOutput;
         for (var i in data) {
             if (data[i].text.includes("おやすみなさい")) {
-                if (data[i].text !== obj.saved_phrase) {
+                if (data[i].text === obj.saved_phrase) {
                     console.log('same oyasumi as last night');
                     break;
                 } else {
                     obj.saved_phrase = data[i].text;
-                    var status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
+                    status = obj.saved_phrase;
                     console.log(status);
                     tweetStatus(status);
-                    var jsonOutput = JSON.stringify(obj);
+                    jsonOutput = JSON.stringify(obj);
+                    console.log(jsonOutput);
+                    fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
+                    return;
+                }
+            } else if (data[i].text.includes("おはよう")) {
+                if (data[i].text === obj.saved_phrase) {
+                    console.log('same ohayou as last time');
+                    break;
+                } else {
+                    obj.saved_phrase = data[i].text;
+                    status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
+                    console.log(status);
+                    tweetStatus(status);
+                    jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
                     return;
                 }
             } else {
-                console.log('not oyasuminasai');
+                console.log('not oyasuminasai nor ohayou');
+                console.log(data[i].text);
             }
         }
         var currentdate = new Date();
@@ -55,9 +71,9 @@ function tweetIt() {
             + currentdate.getMinutes() + ":"
             + currentdate.getSeconds();
         obj.last_tweeted = datetime;
-        var jsonOutput = JSON.stringify(obj);
+        jsonOutput = JSON.stringify(obj);
         fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
-    })
+    });
 }
 
 function tweetStatus(text){
