@@ -15,15 +15,34 @@ function preprocess(err,data){
     throw err;
   }
   obj = JSON.parse(data);
-  //console.log(obj);
+    //console.log(obj);
+    programBegin();
 }
 //var id_acc = 1094789694280261600;
 
-tweetIt();
-setInterval(tweetIt, 60*1000);
+function programBegin(){
+    tweetIt();
+    setInterval(tweetIt, 60 * 1000);
+}
 
 function tweetIt() {
-    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 10 }, function (err, data, response) {
+    var now = new Date();
+    var time = {
+        "h": now.getHours(),
+        "m": now.getMinutes(),
+        "s": now.getSeconds()
+    }
+    console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
+
+    if (time.h === 15 && time.m === 0) {
+        var teaTime = "あら、おやつの時間だわ"
+        if (obj.saved_phrase !== teaTime) {
+            var emojiIdx = Math.floor(Math.random() * (obj.emoji.length-1));
+            tweetStatus(teaTime + " " + obj.emoji[emojiIdx]);
+        }
+    }
+
+    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
         if (err) {
             return
         }
@@ -35,13 +54,16 @@ function tweetIt() {
                     console.log('same oyasumi as last night');
                     break;
                 } else {
-                    obj.saved_phrase = data[i].text;
+                    /*obj.saved_phrase = data[i].text;
                     status = obj.saved_phrase;
                     console.log(status);
-                    tweetStatus(status);
+                  //  tweetStatus(status);
                     jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
+                    */
+                    console.log('diff oyasumi');
+                    console.log(data[i].text);
                     return;
                 }
             } else if (data[i].text.includes("おはよう")) {
@@ -52,7 +74,7 @@ function tweetIt() {
                     obj.saved_phrase = data[i].text;
                     status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
                     console.log(status);
-                    tweetStatus(status);
+                    //tweetStatus(status);
                     jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
