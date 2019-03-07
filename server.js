@@ -37,7 +37,7 @@ function tweetIt() {
         var teaTime = "あら、おやつの時間だわ"
         if (obj.saved_phrase !== teaTime) {
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            tweetStatus(teaTime + " " + obj.emoji[emojiIdx]);
+            postTweet.tweetStatus(teaTime + " " + obj.emoji[emojiIdx]);
         }
     }
 
@@ -48,29 +48,14 @@ function tweetIt() {
         //console.log(data[0].text);
         var status, jsonOutput;
         for (var i in data) {
-            if (data[i].text.includes("おやすみなさい")) {
-                if (data[i].text === obj.saved_phrase) {
-                    console.log('same oyasumi as last night');
+            var amitaCurrentTweet = data[i].text;
+            if (amitaCurrentTweet.includes("おやすみなさい") || amitaCurrentTweet.includes("おはよう")) {
+                if (amitaCurrentTweet === obj.saved_phrase) {
+                    console.log('same as last time');
                     break;
                 } else {
-                    obj.saved_phrase = data[i].text;
-                    status = obj.saved_phrase;
-                    console.log(status);
-                    postTweet.tweetStatus(status);
-                    jsonOutput = JSON.stringify(obj);
-                    console.log(jsonOutput);
-                    fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
-                    console.log('diff oyasumi');
-                    console.log(data[i].text);
-                    return;
-                }
-            } else if (data[i].text.includes("おはよう")) {
-                if (data[i].text === obj.saved_phrase) {
-                    console.log('same ohayou as last time');
-                    break;
-                } else {
-                    obj.saved_phrase = data[i].text;
-                    status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
+                    obj.saved_phrase = amitaCurrentTweet;
+                    status = amitaCurrentTweet.includes("おはよう") ? (obj.saved_phrase + "\n\n" + obj.repeated_phrase) : obj.saved_phrase;
                     console.log(status);
                     postTweet.tweetStatus(status);
                     jsonOutput = JSON.stringify(obj);
