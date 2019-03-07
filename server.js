@@ -1,26 +1,25 @@
-//console.log('this is suck');
-
 var Twit = require('twit');
 var config = require('./config');
+var postTweet = require('./func/tweet.js');
 
 var T = new Twit(config);
 //console.log(T);
 
 var fs = require('fs');
 var obj
-fs.readFile('./tweet_file.json',preprocess);
+fs.readFile('./tweet_file.json', preprocess);
 
-function preprocess(err,data){
-  if (err){
-    throw err;
-  }
-  obj = JSON.parse(data);
+function preprocess(err, data) {
+    if (err) {
+        throw err;
+    }
+    obj = JSON.parse(data);
     //console.log(obj);
     programBegin();
 }
 //var id_acc = 1094789694280261600;
 
-function programBegin(){
+function programBegin() {
     tweetIt();
     setInterval(tweetIt, 60 * 1000);
 }
@@ -37,14 +36,14 @@ function tweetIt() {
     if (time.h === 15 && time.m === 0) {
         var teaTime = "あら、おやつの時間だわ"
         if (obj.saved_phrase !== teaTime) {
-            var emojiIdx = Math.floor(Math.random() * (obj.emoji.length-1));
+            var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
             tweetStatus(teaTime + " " + obj.emoji[emojiIdx]);
         }
     }
 
     T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
         if (err) {
-            return
+            return;
         }
         //console.log(data[0].text);
         var status, jsonOutput;
@@ -54,14 +53,13 @@ function tweetIt() {
                     console.log('same oyasumi as last night');
                     break;
                 } else {
-                    /*obj.saved_phrase = data[i].text;
+                    obj.saved_phrase = data[i].text;
                     status = obj.saved_phrase;
                     console.log(status);
-                  //  tweetStatus(status);
+                    postTweet.tweetStatus(status);
                     jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
-                    */
                     console.log('diff oyasumi');
                     console.log(data[i].text);
                     return;
@@ -74,7 +72,7 @@ function tweetIt() {
                     obj.saved_phrase = data[i].text;
                     status = obj.saved_phrase + "\n\n" + obj.repeated_phrase;
                     console.log(status);
-                    //tweetStatus(status);
+                    postTweet.tweetStatus(status);
                     jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
@@ -98,20 +96,3 @@ function tweetIt() {
     });
 }
 
-function tweetStatus(text){
-  //var randInt = Math.floor(16800*1000);
-  var tweet = {
-    status: text
-  }
-
-  T.post('statuses/update', tweet, isTweeted);
-
-  function isTweeted(err, data, response){
-    //console.log(response);
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("it works!");
-    }
-  }
-}
