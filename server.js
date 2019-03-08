@@ -58,7 +58,7 @@ function tweetIt() {
                     obj.saved_phrase = amitaCurrentTweet;
                     status = amitaCurrentTweet.includes("おはよう") ? (obj.saved_phrase + "\n\n" + obj.repeated_phrase) : obj.saved_phrase;
                     console.log(status);
-                    postTweet.tweetStatus(status);
+                    postTweet.tweetStatus(T, status);
                     jsonOutput = JSON.stringify(obj);
                     console.log(jsonOutput);
                     fs.writeFile('./tweet_file.json', jsonOutput, function (err) { console.log(err); });
