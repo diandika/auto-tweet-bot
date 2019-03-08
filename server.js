@@ -20,6 +20,7 @@ function preprocess(err, data) {
 //var id_acc = 1094789694280261600;
 
 function programBegin() {
+    postTweet.tweetStatus(T, "あら? ");
     tweetIt();
     setInterval(tweetIt, 60 * 1000);
 }
@@ -34,10 +35,10 @@ function tweetIt() {
     console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
 
     if (time.h === 15 && time.m === 0) {
-        var teaTime = "あら、おやつの時間だわ"
+        var teaTime = "あら、おやつの時間だわ";
         if (obj.saved_phrase !== teaTime) {
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            postTweet.tweetStatus(teaTime + " " + obj.emoji[emojiIdx]);
+            postTweet.tweetStatus(T, teaTime + " " + obj.emoji[emojiIdx]);
         }
     }
 
