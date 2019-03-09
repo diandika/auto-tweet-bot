@@ -20,7 +20,7 @@ function preprocess(err, data) {
 //var id_acc = 1094789694280261600;
 
 function programBegin() {
-    postTweet.tweetStatus(T, "あら? ");
+    //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
     setInterval(tweetIt, 60 * 1000);
 }
