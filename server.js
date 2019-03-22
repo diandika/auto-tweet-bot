@@ -32,18 +32,22 @@ function tweetIt() {
         "m": now.getMinutes(),
         "s": now.getSeconds()
     }
-    console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
+    //console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
 
-    if (time.h === 15 && time.m === 0) {
-        var teaTime = "あら、おやつの時間だわ";
-        if (obj.saved_phrase !== teaTime) {
+    if (time.h === 15) {
+        if (!obj.isTeaTimeDone) {
+            var teaTime = "あら、おやつの時間だわ";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
             postTweet.tweetStatus(T, teaTime + " " + obj.emoji[emojiIdx]);
+            obj.isTeaTimeDone = true;
         }
+    } else if (time.h === 0) {
+        obj.isTeaTimeDone = false;
     }
 
     T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
         if (err) {
+            console.log(err);
             return;
         }
         //console.log(data[0].text);
@@ -52,7 +56,7 @@ function tweetIt() {
             var amitaCurrentTweet = data[i].text;
             if (amitaCurrentTweet.includes("おやすみなさい") || amitaCurrentTweet.includes("おはよう")) {
                 if (amitaCurrentTweet === obj.saved_phrase) {
-                    console.log('same as last time');
+                    //console.log('same as last time');
                     break;
                 } else {
                     obj.saved_phrase = amitaCurrentTweet;
@@ -65,8 +69,8 @@ function tweetIt() {
                     return;
                 }
             } else {
-                console.log('not oyasuminasai nor ohayou');
-                console.log(data[i].text);
+                //console.log('not oyasuminasai nor ohayou');
+                //console.log(data[i].text);
             }
         }
         var currentdate = new Date();
