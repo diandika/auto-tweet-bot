@@ -40,9 +40,13 @@ function tweetIt() {
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
             postTweet.tweetStatus(T, teaTime + " " + obj.emoji[emojiIdx]);
             obj.isTeaTimeDone = true;
+            var outjsonOutput = JSON.stringify(obj);
+            fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         }
     } else if (time.h === 0) {
         obj.isTeaTimeDone = false;
+        var outjsonOutput = JSON.stringify(obj);
+        fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
     }
 
     T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
@@ -54,7 +58,7 @@ function tweetIt() {
         var status, jsonOutput;
         for (var i in data) {
             var amitaCurrentTweet = data[i].text;
-            if (amitaCurrentTweet.includes("おやすみなさい") || amitaCurrentTweet.includes("おはよう")) {
+            if (amitaCurrentTweet.includes("おやすみなさい") || amitaCurrentTweet.includes("おはよ")) {
                 if (amitaCurrentTweet === obj.saved_phrase) {
                     //console.log('same as last time');
                     break;
