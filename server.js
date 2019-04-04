@@ -3,7 +3,7 @@ var config = require('./config');
 var postTweet = require('./func/tweet.js');
 
 var T = new Twit(config);
-//console.log(T);
+console.log(T);
 
 var fs = require('fs');
 var obj
@@ -22,7 +22,7 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    setInterval(tweetIt, 60 * 1000);
+    setInterval(tweetIt, 10 * 1000);
 }
 
 function tweetIt() {
@@ -33,19 +33,19 @@ function tweetIt() {
         "s": now.getSeconds()
     }
     //console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
-
+    var outjsonOutput = {};
     if (time.h === 15) {
         if (!obj.isTeaTimeDone) {
             var teaTime = "あら、おやつの時間だわ";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
             postTweet.tweetStatus(T, teaTime + " " + obj.emoji[emojiIdx]);
             obj.isTeaTimeDone = true;
-            var outjsonOutput = JSON.stringify(obj);
+            outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         }
     } else if (time.h === 0) {
         obj.isTeaTimeDone = false;
-        var outjsonOutput = JSON.stringify(obj);
+        outjsonOutput = JSON.stringify(obj);
         fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
     }
 
