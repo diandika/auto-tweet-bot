@@ -22,7 +22,7 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    setInterval(tweetIt, 10 * 1000);
+    setInterval(tweetIt, 15 * 1000);
 }
 
 function tweetIt() {
