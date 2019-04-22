@@ -22,7 +22,8 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    setInterval(tweetIt, 15 * 1000);
+    console.log("wtf");
+    setInterval(tweetIt, 30 * 1000);
 }
 
 function tweetIt() {
@@ -32,7 +33,7 @@ function tweetIt() {
         "m": now.getMinutes(),
         "s": now.getSeconds()
     }
-    //console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
+    console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
     var outjsonOutput = {};
     if (time.h === 15) {
         if (!obj.isTeaTimeDone) {
@@ -49,12 +50,12 @@ function tweetIt() {
         fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
     }
 
-    T.get('statuses/user_timeline', { screen_name: 'MAESHIMAAMI_ave', count: 1 }, function (err, data, response) {
+    T.get('statuses/user_timeline', { id: 619187741, count: 1 }, function (err, data, response) {
         if (err) {
             console.log(err);
             return;
         }
-        //console.log(data[0].text);
+        console.log(data);
         var status, jsonOutput;
         for (var i in data) {
             var amitaCurrentTweet = data[i].text;
