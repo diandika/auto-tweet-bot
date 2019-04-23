@@ -55,7 +55,7 @@ function tweetIt() {
             console.log(err);
             return;
         }
-        console.log(data);
+        console.log(data[0].text);
         var status, jsonOutput;
         for (var i in data) {
             var amitaCurrentTweet = data[i].text;
@@ -78,14 +78,6 @@ function tweetIt() {
                 //console.log(data[i].text);
             }
         }
-        var currentdate = new Date();
-        var datetime = currentdate.getDate() + "/"
-            + (currentdate.getMonth() + 1) + "/"
-            + currentdate.getFullYear() + " @ "
-            + currentdate.getHours() + ":"
-            + currentdate.getMinutes() + ":"
-            + currentdate.getSeconds();
-        obj.last_tweeted = datetime;
         jsonOutput = JSON.stringify(obj);
         fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
     });
