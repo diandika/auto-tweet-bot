@@ -23,7 +23,7 @@ function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
     console.log("wtf");
-    setInterval(tweetIt, 30 * 1000);
+    setInterval(tweetIt, 50 * 1000);
 }
 
 function tweetIt() {
