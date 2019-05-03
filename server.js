@@ -3,7 +3,6 @@ var config = require('./config');
 var postTweet = require('./func/tweet.js');
 
 var T = new Twit(config);
-console.log(T);
 
 var fs = require('fs');
 var obj
@@ -22,8 +21,7 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    console.log("wtf");
-    setInterval(tweetIt, 50 * 1000);
+    setInterval(tweetIt, 20 * 60 * 1000);
 }
 
 function tweetIt() {
@@ -33,24 +31,48 @@ function tweetIt() {
         "m": now.getMinutes(),
         "s": now.getSeconds()
     }
-    console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
+    //console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
     var outjsonOutput = {};
-    if (time.h === 15) {
-        if (!obj.isTeaTimeDone) {
-            var teaTime = "あら、おやつの時間だわ";
+    if (time.h == 15 && obj.lastTweet != 1) {
+        var intTweeting = Math.floor(Math.random() * 100);
+        var isTweeting = (intTweeting % 11) == 0;
+        if (isTweeting) {
+            var rawTweet = "あら、おやつの時間だわ";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            postTweet.tweetStatus(T, teaTime + " " + obj.emoji[emojiIdx]);
-            obj.isTeaTimeDone = true;
+            var tweet = rawTweet + emojiIdx;
+            postTweet.tweetStatus(T, tweet);
+            obj.lastTweet = 1;
             outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         }
-    } else if (time.h === 0) {
+    } else if (time.h == 22 && obj.lastTweet != 2) {
+        var intTweeting = Math.floor(Math.random() * 100);
+        var isTweeting = (intTweeting % 11) == 0;
+        if (isTweeting) {
+            var rawTweet = "おやすみ〜";
+            var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
+            var tweet = rawTweet + emojiIdx;
+            postTweet.tweetStatus(T, tweet);
+            obj.lastTweet = 2;
+            outjsonOutput = JSON.stringify(obj);
+            fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
+        }
         obj.isTeaTimeDone = false;
-        outjsonOutput = JSON.stringify(obj);
-        fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
+    } else if (time.h == 10 && obj.lastTweet != 3) {
+        var intTweeting = Math.floor(Math.random() * 100);
+        var isTweeting = (intTweeting % 11) == 0;
+        if (isTweeting) {
+            var rawTweet = "おはよう〜";
+            var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
+            var tweet = rawTweet + emojiIdx;
+            postTweet.tweetStatus(T, tweet);
+            obj.lastTweet = 3;
+            outjsonOutput = JSON.stringify(obj);
+            fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
+        }
     }
 
-    T.get('statuses/user_timeline', { id: 619187741, count: 1 }, function (err, data, response) {
+    /*T.get('statuses/user_timeline', { id: 619187741, count: 1 }, function (err, data, response) {
         if (err) {
             console.log(err);
             return;
@@ -80,6 +102,6 @@ function tweetIt() {
         }
         jsonOutput = JSON.stringify(obj);
         fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
-    });
+    });*/
 }
 
