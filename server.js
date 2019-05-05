@@ -21,7 +21,7 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    setInterval(tweetIt, 10 * 60 * 1000);
+    setInterval(tweetIt, 60 * 1000);
 }
 
 function tweetIt() {
@@ -44,7 +44,7 @@ function tweetIt() {
             var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
-            T.post('direct_messages/new', {
+            T.post('direct_messages/event/new', {
                 user_id: 'fans_seiyuu',
                 text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
@@ -61,7 +61,7 @@ function tweetIt() {
             var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
-            T.post('direct_messages/new', {
+            T.post('direct_messages/event/new', {
                 user_id: 'fans_seiyuu',
                 text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
@@ -78,7 +78,7 @@ function tweetIt() {
             var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
-            T.post('direct_messages/new', {
+            T.post('direct_messages/event/new', {
                 user_id: 'fans_seiyuu',
                 text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
