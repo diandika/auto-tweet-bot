@@ -32,7 +32,6 @@ function tweetIt() {
         "s": now.getSeconds()
     }
     //console.log(obj.emoji[Math.floor(Math.random() * (obj.emoji.length - 1))]);
-    var outjsonOutput = {};
     if (time.h == 15 && obj.lastTweet != 1) {
         var intTweeting = Math.floor(Math.random() * 100);
         var isTweeting = (intTweeting % 11) == 0;
@@ -42,12 +41,12 @@ function tweetIt() {
             var tweet = rawTweet + emojiIdx;
             post.tweetStatus(T, tweet);
             obj.lastTweet = 1;
-            outjsonOutput = JSON.stringify(obj);
+            var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
             T.post('direct_messages/new', {
                 user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting;
+                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
         }
     } else if (time.h == 22 && obj.lastTweet != 2) {
@@ -59,12 +58,12 @@ function tweetIt() {
             var tweet = rawTweet + emojiIdx;
             post.tweetStatus(T, tweet);
             obj.lastTweet = 2;
-            outjsonOutput = JSON.stringify(obj);
+            var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
             T.post('direct_messages/new', {
                 user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting;
+                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
         }
     } else if (time.h == 10 && obj.lastTweet != 3) {
@@ -76,12 +75,12 @@ function tweetIt() {
             var tweet = rawTweet + emojiIdx;
             post.tweetStatus(T, tweet);
             obj.lastTweet = 3;
-            outjsonOutput = JSON.stringify(obj);
+            var outjsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
         } else {
             T.post('direct_messages/new', {
                 user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting;
+                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
             })
         }
     }
