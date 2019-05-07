@@ -38,7 +38,7 @@ function tweetIt() {
         if (isTweeting && false) {
             var rawTweet = "あら、おやつの時間だわ";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + obj.emoji[emojiIdx];
+            var tweet = rawTweet + obj.emoji[emojiIdx] + '\nsent at: ' + time.h + ':' + time.m + ':' + time.s; 
             post.tweetStatus(T, tweet);
             obj.lastTweet = 1;
             var jsonOutput = JSON.stringify(obj);
@@ -51,7 +51,7 @@ function tweetIt() {
         if (isTweeting) {
             var rawTweet = "おやすみ〜";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + obj.emoji[emojiIdx];
+            var tweet = rawTweet + obj.emoji[emojiIdx] + '\nsent at: ' + time.h + ':' + time.m + ':' + time.s;
             post.tweetStatus(T, tweet);
             obj.lastTweet = 2;
             var jsonOutput = JSON.stringify(obj);
@@ -64,7 +64,7 @@ function tweetIt() {
         if (isTweeting) {
             var rawTweet = "おはよう〜";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + obj.emoji[emojiIdx];
+            var tweet = rawTweet + obj.emoji[emojiIdx] + '\nsent at: ' + time.h + ':' + time.m + ':' + time.s;
             post.tweetStatus(T, tweet);
             obj.lastTweet = 3;
             var jsonOutput = JSON.stringify(obj);
