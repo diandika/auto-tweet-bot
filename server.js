@@ -21,7 +21,7 @@ function preprocess(err, data) {
 function programBegin() {
     //postTweet.tweetStatus(T, "あら? ");
     tweetIt();
-    setInterval(tweetIt, 60 * 1000);
+    setInterval(tweetIt, 5 * 60 * 1000);
 }
 
 function tweetIt() {
@@ -35,19 +35,15 @@ function tweetIt() {
     if (time.h == 15 && obj.lastTweet != 1) {
         var intTweeting = Math.floor(Math.random() * 100);
         var isTweeting = (intTweeting % 11) == 0;
-        if (isTweeting) {
+        if (isTweeting && false) {
             var rawTweet = "あら、おやつの時間だわ";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + emojiIdx;
+            var tweet = rawTweet + obj.emoji[emojiIdx];
             post.tweetStatus(T, tweet);
             obj.lastTweet = 1;
-            var outjsonOutput = JSON.stringify(obj);
+            var jsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
-        } else {
-            T.post('direct_messages/event/new', {
-                user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
-            })
+            console.log('tweeted');
         }
     } else if (time.h == 22 && obj.lastTweet != 2) {
         var intTweeting = Math.floor(Math.random() * 100);
@@ -55,16 +51,12 @@ function tweetIt() {
         if (isTweeting) {
             var rawTweet = "おやすみ〜";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + emojiIdx;
+            var tweet = rawTweet + obj.emoji[emojiIdx];
             post.tweetStatus(T, tweet);
             obj.lastTweet = 2;
-            var outjsonOutput = JSON.stringify(obj);
+            var jsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
-        } else {
-            T.post('direct_messages/event/new', {
-                user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
-            })
+            console.log('tweeted');
         }
     } else if (time.h == 10 && obj.lastTweet != 3) {
         var intTweeting = Math.floor(Math.random() * 100);
@@ -72,16 +64,12 @@ function tweetIt() {
         if (isTweeting) {
             var rawTweet = "おはよう〜";
             var emojiIdx = Math.floor(Math.random() * (obj.emoji.length - 1));
-            var tweet = rawTweet + emojiIdx;
+            var tweet = rawTweet + obj.emoji[emojiIdx];
             post.tweetStatus(T, tweet);
             obj.lastTweet = 3;
-            var outjsonOutput = JSON.stringify(obj);
+            var jsonOutput = JSON.stringify(obj);
             fs.writeFile('./tweet_file.json', jsonOutput, function (err) { if (err) console.log(err); });
-        } else {
-            T.post('direct_messages/event/new', {
-                user_id: 'fans_seiyuu',
-                text: time.h + ':' + time.m + ':' + time.s + 'number: ' + intTweeting
-            })
+            console.log('tweeted');
         }
     }
 
